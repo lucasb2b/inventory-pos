@@ -6,7 +6,21 @@
     $useremail = $_POST['txt_email'];
     $password = $_POST['txt_password'];
 
-    echo $useremail . " - " . $password;
+    $select = $pdo->prepare("SELECT * FROM tbl_user WHERE useremail='$useremail' AND password='$password'");
+
+    $select->execute();
+
+    $row = $select->fetch(PDO::FETCH_ASSOC);
+
+    if($row['useremail']==$useremail AND $row['password']==$password) {
+      ob_start();
+      echo $success = 'Login Successfull';
+      header('refresh:1;dashboard.php');
+      ob_end_flush();
+    } else {
+      echo 'Login Fail';
+    }
+
   }
 ?>
 
